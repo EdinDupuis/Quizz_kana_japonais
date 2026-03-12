@@ -1,27 +1,30 @@
 import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
 import { kanaData } from './data/kana';
 import StudyMode from "./composants/StudyMode.tsx";
 import QuizMode from "./composants/QuizMode.tsx";
 import './App.css';
 
 function App() {
-    // États demandés
+    // On garde 'script' ici pour que le choix Hiragana/Katakana
+    // soit conservé quand on navigue entre les pages.
     const [script, setScript] = useState<'hiragana' | 'katakana'>('hiragana');
-    const [mode, setMode] = useState<'study' | 'quiz'>('study');
 
     return (
-        <div className="app-container">
-            <header>
-                <h1>Apprentissage du Japonais - Kana</h1>
+        <Router>
+            <div className="app-container">
+                <header>
+                    <h1>Apprentissage du Japonais - Kana</h1>
 
-                {/* Navigation mode */}
-                <nav className="main-nav">
-                    <button onClick={() => setMode('study')} className={mode === 'study' ? 'active' : ''}>Étude</button>
-                    <button onClick={() => setMode('quiz')} className={mode === 'quiz' ? 'active' : ''}>Quiz</button>
-                </nav>
+                    <nav className="main-nav">
+                        <NavLink to="/" className={({ isActive }) => isActive ? 'active' : ''}>
+                            Étude
+                        </NavLink>
+                        <NavLink to="/quiz" className={({ isActive }) => isActive ? 'active' : ''}>
+                            Quiz
+                        </NavLink>
+                    </nav>
 
-                {/* Sélection script (uniquement en mode étude comme suggéré) */}
-                {mode === 'study' && (
                     <div className="script-toggle">
                         <label>
                             <input
@@ -42,15 +45,23 @@ function App() {
                             Katakana
                         </label>
                     </div>
-                )}
-            </header>
+                </header>
 
-            <main>
-                {/* Affichage conditionnel selon tes props */}
-                {mode === 'study' && <StudyMode script={script} kanaData={kanaData} />}
-                {mode === 'quiz' && <QuizMode script={script} kanaData={kanaData} />}
-            </main>
-        </div>
+                <main>
+                    <Routes>
+                        {/* Route par défaut : Mode Étude */}
+                        <Route path="/" element={
+                            <StudyMode script={script} kanaData={kanaData} />
+                        } />
+
+                        {/* Route Quiz */}
+                        <Route path="/quiz" element={
+                            <QuizMode script={script} kanaData={kanaData} />
+                        } />
+                    </Routes>
+                </main>
+            </div>
+        </Router>
     );
 }
 

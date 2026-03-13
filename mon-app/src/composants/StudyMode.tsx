@@ -7,7 +7,6 @@ interface StudyModeProps {
 }
 
 function StudyMode({ script, kanaData }: StudyModeProps) {
-    // On regroupe les données par "row" (a, ka, sa, ta, na, ha, ma, ya, ra, wa, n...)
     const rows = kanaData.reduce((acc, kana) => {
         if (!acc[kana.row]) acc[kana.row] = [];
         acc[kana.row].push(kana);

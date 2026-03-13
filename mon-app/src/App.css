@@ -214,3 +214,22 @@ body {
     font-size: 1.8rem;
   }
 }
+
+/* src/App.css */
+
+.main-nav a {
+  text-decoration: none; /* Enlever le soulignement */
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  font-weight: bold;
+  transition: 0.3s;
+  display: inline-block;
+}
+
+.main-nav a.active {
+  background: var(--primary-color);
+  color: white;
+}
